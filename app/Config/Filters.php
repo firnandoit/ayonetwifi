@@ -78,7 +78,9 @@ class Filters extends BaseFilters
             // --- AKTIFKAN CSRF DENGAN PENGECUALIAN ---
             'csrf' => [
                 'except' => [
-                    'payment/notification' // Izinkan Midtrans kirim data ke sini
+                    'payment/notification', // Izinkan Midtrans kirim data ke sini
+                    'api/send-otp',         // Izinkan Dify kirim OTP request
+                    'api/verify-otp',       // Izinkan Dify verifikasi OTP
                 ]
             ],
 

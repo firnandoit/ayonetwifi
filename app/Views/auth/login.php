@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--begin::Head-->
+
 <head>
     <title>Login - Ayonet WiFi</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
+
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <!--begin::Global Stylesheets Bundle-->
@@ -18,7 +19,7 @@
             background: linear-gradient(135deg, #009ef7 0%, #003da7 100%);
             position: relative;
             /* Membuat potongan miring pada desktop */
-            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); 
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
             z-index: 1;
         }
 
@@ -29,8 +30,10 @@
                 height: 250px;
                 width: 100% !important;
             }
+
             .auth-form-side {
-                margin-top: -40px; /* Membuat form agak naik menimpa visual */
+                margin-top: -40px;
+                /* Membuat form agak naik menimpa visual */
                 z-index: 2;
                 background: white;
                 border-radius: 30px 30px 0 0;
@@ -49,10 +52,12 @@
             transition: all 0.3s ease;
             border: 1px solid transparent;
         }
+
         .social-circle:hover {
             background-color: #eef3f7;
             transform: scale(1.1);
         }
+
         .social-circle img {
             width: 20px;
             height: 20px;
@@ -63,6 +68,7 @@
             background-color: #f9f9f9 !important;
             border: 1px solid #f1f1f1 !important;
         }
+
         .form-control-solid:focus {
             background-color: #ffffff !important;
             border-color: #009ef7 !important;
@@ -72,11 +78,12 @@
 <!--end::Head-->
 
 <!--begin::Body-->
+
 <body id="kt_body" class="auth-bg">
     <div class="d-flex flex-column flex-root">
         <!--begin::Authentication-->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-            
+
             <!--begin::Aside (Area Biru / Visual)-->
             <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 auth-visual-side flex-center p-10">
                 <div class="d-flex flex-column flex-center text-center">
@@ -100,7 +107,7 @@
                 <div class="d-flex flex-column flex-center flex-row-fluid p-10">
                     <!--begin::Wrapper-->
                     <div class="w-lg-450px w-100">
-                        
+
                         <!-- Tombol Kembali -->
                         <div class="mb-10">
                             <a href="<?= base_url('/') ?>" class="btn btn-icon btn-sm btn-light-success rounded-circle me-3">
@@ -112,7 +119,7 @@
                         <!--begin::Form-->
                         <form class="form w-100" id="kt_sign_in_form" action="<?= base_url('login') ?>" method="post">
                             <?= csrf_field() ?>
-                            
+
                             <div class="text-start mb-10">
                                 <h1 class="text-gray-900 mb-3 fs-3x">Sign In</h1>
                                 <div class="text-gray-500 fw-semibold fs-6">Gunakan akun billing Anda</div>
@@ -147,7 +154,7 @@
                                 <!--Button Login-->
                                 <button type="submit" id="kt_sign_in_submit" class="btn btn-success px-10 py-4 fw-bold">
                                     <span class="indicator-label">Sign In</span>
-                                    <span class="indicator-progress">Please wait... 
+                                    <span class="indicator-progress">Please wait...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                     </span>
                                 </button>
@@ -155,11 +162,11 @@
                                 <!--Social Login (Sesuai Gambar User)-->
                                 <div class="d-flex align-items-center">
                                     <div class="text-gray-400 fw-bold me-3">Or</div>
-                                    
+
                                     <a href="#" class="social-circle me-2">
                                         <img alt="Logo" src="<?= base_url('assets/media/svg/brand-logos/google-icon.svg') ?>" />
                                     </a>
-                                    
+
                                     <a href="#" class="social-circle">
                                         <img alt="Logo" src="<?= base_url('assets/media/svg/brand-logos/facebook-3.svg') ?>" />
                                     </a>
@@ -181,8 +188,11 @@
     </div>
 
     <!--begin::Javascript-->
-    <script>var hostUrl = "<?= base_url('assets/') ?>";</script>
+    <script>
+        var hostUrl = "<?= base_url('assets/') ?>";
+    </script>
     <script src="<?= base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/js/scripts.bundle.js') ?>"></script>
 </body>
+
 </html>

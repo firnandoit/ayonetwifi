@@ -105,4 +105,46 @@ class PelangganController extends BaseController
         }
         return $this->failNotFound('Data tidak ditemukan atau sudah dihapus');
     }
+
+    // ========================================================
+    // COPAS BAGIAN BARU INI DI BAGIAN BAWAH CONTROLLER ANDA
+    // ========================================================
+
+    /**
+     * API Publik untuk Dify AI Agent
+     * Mencari status pelanggan berdasarkan nomor HP untuk chatbot landing page
+     */
+    public function cekByHp()
+    {
+        // 1. Ambil query string 'no_hp' yang dikirim dari node Permintaan HTTP Dify
+        $noHp = $this->request->getGet('no_hp');
+
+        if (!$noHp) {
+            return $this->respond([
+                'status'  => 'error',
+                'message' => 'Nomor HP tidak boleh kosong.'
+            ], 400);
+        }
+
+        // 2. Cari di database menggunakan properti customerModel bawaan controller ini
+        $pelanggan = $this->customerModel->where('phone', $noHp)->first();
+
+        // 3. Jika nomor HP terdaftar, kembalikan data dalam struktur JSON teratur
+        if ($pelanggan) {
+            return $this->respond([
+                'status' => 'success',
+                'data'   => [
+                    'nama'   => $pelanggan['name'],
+                    'alamat' => $pelanggan['address'],
+                    'status' => $pelanggan['status'],  // Hasilnya dinamis: aktif/isolir
+                ]
+            ], 200);
+        }
+
+        // 4. Jika nomor HP tidak terdaftar di DB
+        return $this->respond([
+            'status'  => 'not_found',
+            'message' => 'Nomor HP tidak terdaftar di sistem AYONET.'
+        ], 404);
+    }
 }

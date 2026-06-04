@@ -2,6 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 
+
 /**
  * @var RouteCollection $routes
  */
@@ -9,6 +10,9 @@ use CodeIgniter\Router\RouteCollection;
 // --- ROUTE PUBLIK (Tanpa Login) ---
 $routes->get('login', 'AuthController::login');
 $routes->post('login', 'AuthController::processLogin');
+$routes->post('api/cek-member', 'PelangganController::cekByHp');
+$routes->post('api/send-otp',   'OtpController::sendOtp');    // Dify: kirim OTP ke WA
+$routes->post('api/verify-otp',  'OtpController::verifyOtp');  // Dify: verifikasi OTP
 $routes->get('logout', 'AuthController::logout');
 $routes->get('/', 'Home::index');
 $routes->get('page/(:any)', 'Home::page/$1');
@@ -18,13 +22,13 @@ $routes->post('payment/notification', 'PaymentController::notification');
 
 // --- ROUTE TERPROTEKSI ---
 $routes->group('', ['filter' => 'auth'], function ($routes) {
-    
+
     // 1. Dashboard (Hanya Owner & Admin - Diatur via Filter & DB)
     $routes->group('dashboard', ['filter' => 'auth'], function ($routes) {
         $routes->get('/', 'Dashboard::index');
         $routes->get('filter', 'Dashboard::filter');
     });
-    
+
     // 2. Profile (Semua Role)
     $routes->group('profile', function ($routes) {
         $routes->get('/', 'ProfileController::index');
