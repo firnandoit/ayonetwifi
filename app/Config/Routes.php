@@ -13,6 +13,7 @@ $routes->post('login', 'AuthController::processLogin');
 $routes->post('api/cek-member', 'PelangganController::cekByHp');
 $routes->post('api/send-otp',   'OtpController::sendOtp');    // Dify: kirim OTP ke WA
 $routes->post('api/verify-otp',  'OtpController::verifyOtp');  // Dify: verifikasi OTP
+$routes->get('api/get-packages', 'OtpController::getPackages');
 $routes->get('logout', 'AuthController::logout');
 $routes->get('/', 'Home::index');
 $routes->get('page/(:any)', 'Home::page/$1');
@@ -60,7 +61,9 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
     // 5. Laporan (Slug: laporan)
     $routes->group('laporan', function ($routes) {
         $routes->get('pemasukan', 'LaporanController::pemasukan');
+        $routes->get('pemasukan/pdf', 'LaporanController::cetakPemasukan');
         $routes->get('tunggakan', 'LaporanController::tunggakan');
+        $routes->get('tunggakan/pdf', 'LaporanController::cetakTunggakan');
     });
 
     // 6. Paket WiFi (Slug: paket)

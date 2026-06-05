@@ -71,6 +71,7 @@ class OtpController extends BaseController
     // =========================================================================
     public function verifyOtp(): \CodeIgniter\HTTP\ResponseInterface
     {
+        // 1. Ambil input dari Dify
         $json = $this->request->getJSON(true);
         $phone = $json['phone'] ?? $this->request->getVar('phone');
         $otp = $json['otp_code'] ?? $this->request->getVar('otp_code');
@@ -79,10 +80,12 @@ class OtpController extends BaseController
             return $this->fail('Data tidak lengkap.', 400);
         }
 
-        // --- NORMALISASI (Paksa jadi 628... agar sama dengan saat simpan) ---
+        // 2. Normalisasi nomor HP agar sinkron (628...)
         $phoneNormalized = $this->normalizePhone($phone);
 
         $db = \Config\Database::connect();
+
+        // 3. Cari Kode OTP di database
         $record = $db->table('otp_codes')
             ->where('phone', $phoneNormalized)
             ->where('is_used', 0)
@@ -90,7 +93,7 @@ class OtpController extends BaseController
             ->get()
             ->getRowArray();
 
-        // Jika tidak ketemu atau kode salah
+        // Cek validitas OTP
         if (!$record || $record['otp_code'] !== (string)$otp) {
             return $this->respond(['status' => false, 'message' => 'Kode OTP salah atau sudah tidak berlaku.'], 404);
         }
@@ -99,12 +102,12 @@ class OtpController extends BaseController
             return $this->respond(['status' => false, 'message' => 'OTP kadaluwarsa.'], 410);
         }
 
-        // Tandai digunakan
+        // 4. Tandai OTP sudah digunakan
         $db->table('otp_codes')->where('id', $record['id'])->update(['is_used' => 1]);
 
-        // Ambil data pelanggan untuk Dify
+        // 5. Ambil data profil pelanggan
         $pelanggan = $db->table('customers')
-            ->select('customers.*, packages.name as nama_paket')
+            ->select('customers.id, customers.name, customers.address, customers.status, packages.name as nama_paket')
             ->join('packages', 'packages.id = customers.package_id', 'left')
             ->where('customers.phone', $phoneNormalized)
             ->orWhere('customers.phone', $this->toLocalPhone($phoneNormalized))
@@ -114,20 +117,59 @@ class OtpController extends BaseController
         if (!$pelanggan) {
             return $this->respond([
                 'status'  => false,
-                'message' => 'Verifikasi berhasil, tapi data profil Anda tidak ditemukan. Silakan hubungi admin.'
+                'message' => 'Verifikasi berhasil, tapi profil pelanggan tidak ditemukan.'
             ], 404);
         }
 
-        // --- HASIL AKHIR ---
+        // 6. AMBIL DATA DARI TABEL BILLS (6 bulan terakhir)
+        // Pastikan di tabel 'bills' Anda memiliki kolom 'customer_id'
+        $tagihan = $db->table('bills')
+            ->where('customer_id', $pelanggan['id'])
+            ->orderBy('year', 'DESC')
+            ->orderBy('month', 'DESC')
+            ->limit(6)
+            ->get()
+            ->getResultArray();
+
+        // 7. HASIL AKHIR (Dikirim ke Dify)
         return $this->respond([
             'status'    => true,
             'message'   => 'Verifikasi berhasil!',
             'pelanggan' => [
                 'name'       => $pelanggan['name'],
-                'address'    => $pelanggan['address'],
+                'address'    => $pelanggan['address'] ?? 'Alamat belum diatur',
                 'nama_paket' => $pelanggan['nama_paket'] ?? 'Tanpa Paket',
-                'status'     => ucfirst($pelanggan['status']) // Akan menampilkan 'Aktif', 'Isolir', atau 'Putus'
-            ]
+                'status'     => ucfirst($pelanggan['status'])
+            ],
+            // Data tagihan ini yang akan dibaca AI untuk menjawab pertanyaan "Sudah bayar?"
+            'daftar_tagihan' => $tagihan
+        ]);
+    }
+
+    // =========================================================================
+    // 3. GET ALL PACKAGES
+    // GET /api/get-packages
+    // =========================================================================
+    public function getPackages(): \CodeIgniter\HTTP\ResponseInterface
+    {
+        $db = \Config\Database::connect();
+
+        // Mengambil semua data dari tabel packages
+        $packages = $db->table('packages')
+            ->select('name, speed, price, description')
+            ->get()
+            ->getResultArray();
+
+        if (empty($packages)) {
+            return $this->respond([
+                'status'  => false,
+                'message' => 'Maaf, saat ini belum ada informasi paket yang tersedia.',
+            ], 404);
+        }
+
+        return $this->respond([
+            'status' => true,
+            'data'   => $packages
         ]);
     }
 

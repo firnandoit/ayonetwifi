@@ -173,6 +173,7 @@ class TagihanController extends BaseController
         'paid_amount' => $totalSetelahBayar,
         'discount'    => $diskon,
         'status'      => $status,
+        'admin_id'    => session()->get('id'),
         'updated_at'  => date('Y-m-d H:i:s')
     ]);
 

@@ -134,8 +134,8 @@
 <div class="card card-flush shadow-sm">
     <div class="card-header pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-gray-800">Daftar Tagihan Berjalan</span>
-            <span class="text-gray-500 mt-1 fw-semibold fs-7">Status pembayaran pelanggan bulan ini</span>
+            <span class="card-label fw-bold text-gray-800">Riwayat Pembayaran Terbaru</span>
+            <span class="text-gray-500 mt-1 fw-semibold fs-7">Pembayaran yang baru saja diproses</span>
         </h3>
     </div>
     <div class="card-body pt-5">
@@ -145,37 +145,37 @@
                     <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
                         <th class="min-w-150px">Pelanggan</th>
                         <th class="min-w-120px">No. HP</th>
-                        <th class="min-w-150px text-end">Tagihan</th>
+                        <th class="min-w-150px text-end">Nominal Bayar</th>
                         <th class="min-w-100px text-end">Status</th>
                     </tr>
                 </thead>
-                <tbody id="list-penunggak-body">
-                    <?php if(empty($list_penunggak)): ?>
+                <tbody id="list-terbaru-body">
+                    <?php if(empty($list_terbaru)): ?>
                         <tr><td colspan="4" class="text-center text-muted py-10">Data tidak ditemukan.</td></tr>
                     <?php else: ?>
-                        <?php foreach($list_penunggak as $p): ?>
+                        <?php foreach($list_terbaru as $p): ?>
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-40px me-3">
-                                        <div class="symbol-label bg-light-dark text-gray-600 fw-bold">
-                                            <?= strtoupper(substr($p['name'] ?? 'P', 0, 1)) ?>
+                                        <div class="symbol-label bg-light-success text-success fw-bold">
+                                            <?= strtoupper(substr($p['customer_name'] ?? 'P', 0, 1)) ?>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-start flex-column">
-                                        <span class="text-gray-800 fw-bold fs-6"><?= esc($p['name']) ?></span>
+                                        <span class="text-gray-800 fw-bold fs-6"><?= esc($p['customer_name']) ?></span>
                                     </div>
                                 </div>
                             </td>
                             <td><span class="text-gray-600 fw-semibold"><?= esc($p['phone']) ?></span></td>
                             <td class="text-end fw-bold">
-                                <span class="text-gray-800">Rp <?= number_format($p['amount'], 0, ',', '.') ?></span>
+                                <span class="text-gray-800">Rp <?= number_format($p['paid_amount'], 0, ',', '.') ?></span>
                             </td>
                             <td class="text-end">
                                 <?php if($p['status'] === 'partial'): ?>
                                     <span class="badge badge-light-warning text-warning fw-bold">DICICIL</span>
                                 <?php else: ?>
-                                    <span class="badge badge-light-secondary text-gray-600 fw-bold">BELUM DIBAYAR</span>
+                                    <span class="badge badge-light-success text-success fw-bold">LUNAS</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -212,30 +212,25 @@ $(document).ready(function() {
                 $('#total-mutasi-filter').text(response.total_mutasi_formatted);
 
                 let tableHtml = '';
-                if (!response.list_penunggak || response.list_penunggak.length === 0) {
+                if (!response.list_terbaru || response.list_terbaru.length === 0) {
                     tableHtml = '<tr><td colspan="4" class="text-center text-muted py-10">Tidak ada data.</td></tr>';
                 } else {
-                    response.list_penunggak.forEach(function(p) {
-                        let name = p.name ? p.name : 'Unknown';
+                    response.list_terbaru.forEach(function(p) {
+                        let name = p.customer_name ? p.customer_name : 'Unknown';
                         let phone = p.phone ? p.phone : '-';
-                        let total = parseFloat(p.amount);
-                        let terbayar = parseFloat(p.paid_amount || 0);
-                        let sisa = total - terbayar;
+                        let dibayar = parseFloat(p.paid_amount || 0);
                         let initial = name.charAt(0).toUpperCase();
 
                         let statusBadge = p.status === 'partial' ? 
                             '<span class="badge badge-light-warning fw-bold px-4 py-3">DICICIL</span>' : 
-                            '<span class="badge badge-light-danger fw-bold px-4 py-3">BELUM BAYAR</span>';
-
-                        let sisaHtml = p.status === 'partial' ? 
-                            `<span class="text-danger fs-8">Sisa: Rp ${sisa.toLocaleString('id-ID')}</span>` : '';
+                            '<span class="badge badge-light-success fw-bold px-4 py-3">LUNAS</span>';
 
                         tableHtml += `
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-45px me-5">
-                                        <div class="symbol-label bg-light-danger text-danger fw-bold">${initial}</div>
+                                        <div class="symbol-label bg-light-success text-success fw-bold">${initial}</div>
                                     </div>
                                     <div class="d-flex justify-content-start flex-column">
                                         <a href="#" class="text-dark fw-bold text-hover-primary fs-6">${name}</a>
@@ -244,16 +239,13 @@ $(document).ready(function() {
                             </td>
                             <td>${phone}</td>
                             <td class="text-end fw-bold">
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark">Rp ${total.toLocaleString('id-ID')}</span>
-                                    ${sisaHtml}
-                                </div>
+                                <span class="text-dark">Rp ${dibayar.toLocaleString('id-ID')}</span>
                             </td>
                             <td class="text-end">${statusBadge}</td>
                         </tr>`;
                     });
                 }
-                $('#list-penunggak-body').html(tableHtml);
+                $('#list-terbaru-body').html(tableHtml);
             },
            error: function() {
                 alert('Gagal mengambil data.');

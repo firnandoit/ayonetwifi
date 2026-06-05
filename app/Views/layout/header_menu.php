@@ -54,8 +54,12 @@ $s1  = $uri->getTotalSegments() > 0 ? $uri->getSegment(1) : '';
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion <?= ($s1 == 'laporan') ? 'here show' : '' ?> me-0 me-lg-2">
         <span class="menu-link py-3 <?= ($s1 == 'laporan') ? 'active' : '' ?>">
             <span class="menu-title">Laporan</span>
+            <span class="menu-arrow d-lg-none"></span>
         </span>
-        <!-- Submenu laporan... -->
+        <div class="menu-sub menu-sub-lg-dropdown menu-column menu-rounded menu-gray-800 fw-semibold py-4 fs-6 w-200px">
+            <div class="menu-item px-3"><a href="<?= base_url('laporan/pemasukan') ?>" class="menu-link px-3">Pemasukan</a></div>
+            <div class="menu-item px-3"><a href="<?= base_url('laporan/tunggakan') ?>" class="menu-link px-3">Tunggakan</a></div>
+        </div>
     </div>
     <?php endif; ?>
 

@@ -45,7 +45,7 @@ class Dashboard extends BaseController
             'pelanggan_nonaktif'      => number_format($data['pelanggan_nonaktif'], 0, ',', '.'),
             'total_penunggak'         => number_format($data['total_penunggak'], 0, ',', '.'),
             'total_mutasi_formatted'  => 'Rp ' . number_format($data['filter']['total_mutasi'], 0, ',', '.'),
-            'list_penunggak'          => $data['list_penunggak']
+            'list_terbaru'            => $data['list_terbaru']
         ]);
     }
 
@@ -59,19 +59,25 @@ class Dashboard extends BaseController
 
         $bulanIni = date('m');
         $tahunIni = date('Y');
+        
+        $adminId = session()->get('role') !== 'owner' ? session()->get('id') : null;
 
         // Logic Mutasi (Berdasarkan Filter Tanggal)
-        $queryMutasi = $billModel->selectSum('paid_amount')
+        $builderMutasi = $billModel->selectSum('paid_amount')
             ->where('updated_at >=', $tglMulai . ' 00:00:00')
-            ->where('updated_at <=', $tglSelesai . ' 23:59:59')
-            ->get()->getRow();
+            ->where('updated_at <=', $tglSelesai . ' 23:59:59');
+        if ($adminId) $builderMutasi->where('admin_id', $adminId);
+        
+        $queryMutasi = $builderMutasi->get()->getRow();
         $totalMutasi = $queryMutasi->paid_amount ?? 0;
 
         // Logic Statistik Utama (Tetap Bulan Ini)
-        $queryUangMasuk = $billModel->selectSum('paid_amount')
+        $builderUangMasuk = $billModel->selectSum('paid_amount')
             ->where('month', $bulanIni)
-            ->where('year', $tahunIni)
-            ->get()->getRow();
+            ->where('year', $tahunIni);
+        if ($adminId) $builderUangMasuk->where('admin_id', $adminId);
+        
+        $queryUangMasuk = $builderUangMasuk->get()->getRow();
         $uangMasuk = $queryUangMasuk->paid_amount ?? 0;
 
         return [
@@ -79,11 +85,7 @@ class Dashboard extends BaseController
             'total_pelanggan'    => $customerModel->where('status', 'aktif')->countAllResults(),
             'pelanggan_nonaktif' => $customerModel->whereIn('status', ['isolir', 'putus'])->countAllResults(),
             'total_penunggak'    => $billModel->where(['status' => 'unpaid', 'month' => $bulanIni, 'year' => $tahunIni])->countAllResults(),
-            'list_penunggak'     => $billModel->select('bills.*, customers.name, customers.phone')
-                                    ->join('customers', 'customers.id = bills.customer_id')
-                                    ->where(['bills.status' => 'unpaid', 'bills.month' => $bulanIni, 'bills.year' => $tahunIni])
-                                    ->limit(5)
-                                    ->find(),
+            'list_terbaru'       => $billModel->getRecentPayments($adminId),
             'filter' => [
                 'tgl_mulai'    => $tglMulai,
                 'tgl_selesai'  => $tglSelesai,
