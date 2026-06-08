@@ -101,7 +101,7 @@
                             <option value="putus">Putus (Berhenti Berlangganan)</option>
                         </select>
                         <div class="text-muted fs-7 mt-2">Pilih 'Isolir' untuk mematikan akses internet pelanggan secara manual.</div>
-                    </div>  
+                    </div>
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -122,7 +122,9 @@
         if ($('#kt_customers_table').length) {
             table = $('#kt_customers_table').DataTable({
                 processing: true,
+                serverSide: false,
                 ajax: '<?= base_url('pelanggan/list') ?>',
+
                 columns: [{
                         data: 'name'
                     },
@@ -169,6 +171,10 @@
                     }
                 ]
             });
+            // --- TAMBAHKAN KODE INI AGAR FILTER BERJALAN ---
+            $('#searchTable').on('keyup', function() {
+                table.search(this.value).draw();
+            });
         }
 
         $('#formCustomer').on('submit', function(e) {
@@ -184,7 +190,7 @@
                 success: function(res) {
                     Swal.fire('Berhasil', res.message, 'success');
                     $('#kt_modal_customer').modal('hide');
-                    
+
                     // UX Improvement: Stay on current page if editing, go to page 1 if adding new
                     if ($('#customer_id').val()) {
                         table.ajax.reload(null, false);
@@ -212,22 +218,22 @@
     }
 
     function editCustomer(id) {
-    $.get('<?= base_url('pelanggan/show/') ?>' + id, function(res) {
-        $('#customer_id').val(res.id);
-        $('[name="name"]').val(res.name);
-        $('[name="phone"]').val(res.phone);
-        $('[name="address"]').val(res.address);
-        $('[name="package_id"]').val(res.package_id);
-        $('[name="user_id"]').val(res.user_id).trigger('change');
-        $('[name="installation_date"]').val(res.installation_date);
-        
-        // Pilih status sesuai data di database
-        $('[name="status"]').val(res.status).trigger('change'); 
-        
-        $('#modal_title').text('Edit Pelanggan');
-        $('#kt_modal_customer').modal('show');
-    });
-}
+        $.get('<?= base_url('pelanggan/show/') ?>' + id, function(res) {
+            $('#customer_id').val(res.id);
+            $('[name="name"]').val(res.name);
+            $('[name="phone"]').val(res.phone);
+            $('[name="address"]').val(res.address);
+            $('[name="package_id"]').val(res.package_id);
+            $('[name="user_id"]').val(res.user_id).trigger('change');
+            $('[name="installation_date"]').val(res.installation_date);
+
+            // Pilih status sesuai data di database
+            $('[name="status"]').val(res.status).trigger('change');
+
+            $('#modal_title').text('Edit Pelanggan');
+            $('#kt_modal_customer').modal('show');
+        });
+    }
 
     function deleteCustomer(id) {
         Swal.fire({
@@ -239,17 +245,17 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post('<?= base_url('pelanggan/delete/') ?>' + id, {
-    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
-}, function(res) {
-    if(res.status) {
-        Swal.fire('Terhapus', res.message, 'success');
-        table.ajax.reload(null, false); // Tetap di halaman saat ini agar tidak kembali ke hal 1 saat menghapus banyak data
-    } else {
-        Swal.fire('Gagal', 'Terjadi kesalahan sistem', 'error');
-    }
-}).fail(function() {
-    Swal.fire('Error', 'Gagal menghubungi server', 'error');
-});
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                }, function(res) {
+                    if (res.status) {
+                        Swal.fire('Terhapus', res.message, 'success');
+                        table.ajax.reload(null, false); // Tetap di halaman saat ini agar tidak kembali ke hal 1 saat menghapus banyak data
+                    } else {
+                        Swal.fire('Gagal', 'Terjadi kesalahan sistem', 'error');
+                    }
+                }).fail(function() {
+                    Swal.fire('Error', 'Gagal menghubungi server', 'error');
+                });
             }
         });
     }

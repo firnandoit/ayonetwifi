@@ -43,5 +43,32 @@ class CustomerModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-}
 
+    /**
+     * Mengambil data pelanggan dengan join ke tabel packages
+     * dan mendukung filter pencarian.
+     */
+    public function getDatatables($searchTerm = null)
+    {
+        // Gunakan $this->builder() agar otomatis menggunakan tabel yang didefinisikan di protected $table
+        $builder = $this->builder();
+
+        // Pilih kolom, sertakan 'speed' seperti di controller lama Anda
+        $builder->select($this->table . '.*, packages.name as package_name, packages.speed');
+        $builder->join('packages', 'packages.id = ' . $this->table . '.package_id', 'left');
+
+        // Logika Pencarian
+        if ($searchTerm) {
+            $builder->groupStart()
+                ->like($this->table . '.name', $searchTerm)
+                ->orLike($this->table . '.phone', $searchTerm)
+                ->orLike($this->table . '.address', $searchTerm)
+                ->groupEnd();
+        }
+
+        // Gunakan updated_at agar data yang baru diubah muncul di paling atas (seperti controller lama)
+        $builder->orderBy($this->table . '.updated_at', 'DESC');
+
+        return $builder->get()->getResultArray();
+    }
+}

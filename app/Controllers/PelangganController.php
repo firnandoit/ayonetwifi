@@ -33,10 +33,11 @@ class PelangganController extends BaseController
     // --- PERBAIKAN DI SINI ---
     public function list()
     {
-        $data = $this->customerModel->select('customers.*, packages.name as package_name, packages.speed')
-            ->join('packages', 'packages.id = customers.package_id', 'left')
-            ->orderBy('customers.updated_at', 'DESC') // Agar yang baru diedit di atas
-            ->findAll();
+        // Ambil keyword pencarian dari DataTables
+        $search = $this->request->getVar('search')['value'] ?? null;
+
+        // Panggil model
+        $data = $this->customerModel->getDatatables($search);
 
         return $this->response->setJSON(['data' => $data]);
     }
