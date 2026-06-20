@@ -102,6 +102,11 @@
                         </select>
                         <div class="text-muted fs-7 mt-2">Pilih 'Isolir' untuk mematikan akses internet pelanggan secara manual.</div>
                     </div>
+                    <div class="fv-row mb-7">
+                        <label class="required fs-6 fw-semibold mb-2">IP Address Perangkat</label>
+                        <input type="text" class="form-control form-control-solid" name="ip_address" placeholder="Contoh: 192.168.0.50" required />
+                        <div class="text-muted fs-7 mt-2">Masukkan IP target perangkat customer untuk simulasi isolir otomatis.</div>
+                    </div>
                 </div>
 
                 <div class="modal-footer flex-center">
@@ -123,7 +128,10 @@
             table = $('#kt_customers_table').DataTable({
                 processing: true,
                 serverSide: false,
-                ajax: '<?= base_url('pelanggan/list') ?>',
+                ajax: {
+                    url: '<?= base_url('pelanggan/list') ?>',
+                    dataSrc: 'data'
+                },
 
                 columns: [{
                         data: 'name'
@@ -226,6 +234,8 @@
             $('[name="package_id"]').val(res.package_id);
             $('[name="user_id"]').val(res.user_id).trigger('change');
             $('[name="installation_date"]').val(res.installation_date);
+            // Isi kotak input ip_address berdasarkan data dari database
+            $('[name="ip_address"]').val(res.ip_address);
 
             // Pilih status sesuai data di database
             $('[name="status"]').val(res.status).trigger('change');
@@ -244,12 +254,18 @@
             confirmButtonText: 'Ya, Hapus!'
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post('<?= base_url('pelanggan/delete/') ?>' + id, {
-                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
-                }, function(res) {
+                // --- PERBAIKAN DI SINI: MEMBACA TOKEN SECARA DINAMIS DARI INPUT HIDDEN VIEW ---
+                var csrfName = '<?= csrf_token() ?>';
+                var csrfHash = $('input[name="' + csrfName + '"]').val() || '<?= csrf_hash() ?>';
+
+                var dataPost = {
+                    [csrfName]: csrfHash
+                };
+
+                $.post('<?= base_url('pelanggan/delete/') ?>' + id, dataPost, function(res) {
                     if (res.status) {
                         Swal.fire('Terhapus', res.message, 'success');
-                        table.ajax.reload(null, false); // Tetap di halaman saat ini agar tidak kembali ke hal 1 saat menghapus banyak data
+                        table.ajax.reload(null, false);
                     } else {
                         Swal.fire('Gagal', 'Terjadi kesalahan sistem', 'error');
                     }

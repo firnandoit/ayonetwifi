@@ -15,26 +15,25 @@ License: For each use you must have a valid license purchased only from above li
 
 <head>
   <title>
-    Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template
-    by KeenThemes
+    <?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?> - Solusi Internet Cepat, Stabil, dan Tanpa Kuota
   </title>
   <meta charset="utf-8" />
   <meta
     name="description"
-    content="The most advanced Tailwind CSS & Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
+    content="Ayonet WiFi menyediakan layanan internet super cepat, stabil, dan tanpa kuota untuk kebutuhan rumah maupun bisnis Anda. Nikmati koneksi andal setiap saat." />
   <meta
     name="keywords"
-    content="tailwind, tailwindcss, metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
+    content="wifi, ayonet, internet cepat, wifi rumah, internet tanpa kuota, provider internet lokal, pasang wifi" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:locale" content="en_US" />
-  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:type" content="website" />
   <meta
     property="og:title"
-    content="Metronic - The World's #1 Selling Tailwind CSS & Bootstrap Admin Template by KeenThemes" />
-  <meta property="og:url" content="https://keenthemes.com/metronic" />
-  <meta property="og:site_name" content="Metronic by Keenthemes" />
-  <link rel="canonical" href="http://preview.keenthemes.com/landing.html" />
-  <link rel="shortcut icon" href="<?= base_url('assets/') ?>media/logos/favicon.ico" />
+    content="<?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?> - Internet Super Cepat" />
+  <meta property="og:url" content="<?= base_url() ?>" />
+  <meta property="og:site_name" content="<?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?>" />
+  <link rel="canonical" href="<?= base_url() ?>" />
+  <link rel="shortcut icon" href="<?= base_url('assets/') ?>media/logos/favicon.ico " />
   <!--begin::Fonts(mandatory for all pages)-->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <!--end::Fonts-->
@@ -184,39 +183,70 @@ License: For each use you must have a valid license purchased only from above li
   <!--begin::Udify Chat Widget Custom-->
   <style>
     #dify-widget-container {
-      position: fixed; 
-      bottom: 30px; 
-      right: 30px; 
-      z-index: 99999; 
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 99999;
       font-family: 'Outfit', sans-serif;
     }
+
     #dify-chat-window {
-      display: none; 
-      width: 380px; 
-      height: 580px; 
-      background: white; 
-      border-radius: 16px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
-      overflow: hidden; 
-      margin-bottom: 16px; 
-      border: 1px solid rgba(0,0,0,0.1);
+      display: none;
+      width: 380px;
+      height: 580px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
     }
-    
+
+    /* Animasi Pulse untuk tombol chat */
+    @keyframes pulse-chat {
+      0% {
+        box-shadow: 0 0 0 0 var(--bs-primary-light);
+      }
+
+      70% {
+        box-shadow: 0 0 0 15px transparent;
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 transparent;
+      }
+    }
+
+    #dify-widget-container button {
+      animation: pulse-chat 2s infinite;
+    }
+
+    #dify-widget-container button:hover {
+      animation: none;
+      transform: translateY(-2px);
+    }
+
     /* Responsive styling untuk mobile */
     @media (max-width: 768px) {
       #dify-widget-container {
         bottom: 20px;
         right: 20px;
-        left: 20px; /* Opsional: Membuat posisi ke tengah/full width container */
+        left: 20px;
+        /* Opsional: Membuat posisi ke tengah/full width container */
       }
+
       #dify-chat-window {
         width: 100%;
-        height: calc(100vh - 120px); /* Menyesuaikan tinggi layar mobile */
+        height: calc(100vh - 120px);
+        /* Menyesuaikan tinggi layar mobile */
         max-height: 600px;
       }
+
       #dify-widget-container button {
         padding: 12px 20px !important;
         font-size: 14px !important;
+        margin-left: auto;
+        /* Agar tombol tetap di kanan di layar mobile jika full width */
       }
     }
   </style>

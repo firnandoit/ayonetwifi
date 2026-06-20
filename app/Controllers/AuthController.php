@@ -28,11 +28,8 @@ class AuthController extends BaseController
             if (password_verify($password, $data['password'])) {
                 
                 // --- AMBIL DATA PERMISSION & MENU DARI DATABASE ---
-                $db = \Config\Database::connect();
-                $permissionsData = $db->table('role_permissions')
-                    ->join('menus', 'menus.id_menu = role_permissions.id_menu')
-                    ->where('role', $data['role'])
-                    ->get()->getResultArray();
+                $rolePermissionModel = new \App\Models\RolePermissionModel();
+                $permissionsData = $rolePermissionModel->getMenusByRole($data['role']);
 
                 // Ambil daftar slug saja (untuk proteksi filter)
                 // Hasilnya: ['dashboard', 'pelanggan', 'customer', dll]
@@ -40,6 +37,9 @@ class AuthController extends BaseController
 
                 // Ambil data menu lengkap (untuk tampilan sidebar/header)
                 $userMenus = $permissionsData;
+
+                // Regenerate session ID untuk mencegah Session Fixation
+                session()->regenerate();
 
                 $ses_data = [
                     'id'          => $data['id'],
@@ -72,6 +72,6 @@ class AuthController extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/login')->with('success', 'Anda telah berhasil logout.');
     }
 }

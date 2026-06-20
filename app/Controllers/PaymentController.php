@@ -124,7 +124,7 @@ class PaymentController extends BaseController
             $orderId     = $jsonRaw['order_id'];
             $fraud       = $jsonRaw['fraud_status'] ?? null;
 
-            $db = \Config\Database::connect();
+
 
             // Logika Penentuan Status
             $statusUpdate = 'pending';
@@ -143,8 +143,7 @@ class PaymentController extends BaseController
             $billId = $parts[1] ?? null;
 
             if ($billId) {
-                // Update Database
-                $db->table('bills')->where('id', $billId)->update([
+                $this->billModel->update($billId, [
                     'status'       => $statusUpdate,
                     'payment_type' => $type
                 ]);

@@ -165,4 +165,13 @@ class BillModel extends Model
 
         return $builder->get()->getResultArray();
     }
+
+    public function getLatestBillsByCustomer($customerId, $limit = 6)
+    {
+        return $this->where('customer_id', $customerId)
+            ->orderBy('year', 'DESC')
+            ->orderBy('month', 'DESC')
+            ->limit($limit)
+            ->findAll();
+    }
 }

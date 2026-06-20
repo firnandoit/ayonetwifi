@@ -12,7 +12,7 @@ class CustomerModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'package_id', 'name', 'address', 'phone', 'installation_date', 'status'];
+    protected $allowedFields    = ['user_id', 'package_id', 'name', 'address', 'phone', 'installation_date', 'status', 'ip_address'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -70,5 +70,25 @@ class CustomerModel extends Model
         $builder->orderBy($this->table . '.updated_at', 'DESC');
 
         return $builder->get()->getResultArray();
+    }
+
+    public function getCustomerByPhone($phone, $localPhone)
+    {
+        return $this->groupStart()
+            ->where('phone', $phone)
+            ->orWhere('phone', $localPhone)
+            ->groupEnd()
+            ->first();
+    }
+
+    public function getCustomerWithPackageByPhone($phone, $localPhone)
+    {
+        return $this->select('customers.id, customers.name, customers.address, customers.status, packages.name as nama_paket')
+            ->join('packages', 'packages.id = customers.package_id', 'left')
+            ->groupStart()
+                ->where('customers.phone', $phone)
+                ->orWhere('customers.phone', $localPhone)
+            ->groupEnd()
+            ->first();
     }
 }

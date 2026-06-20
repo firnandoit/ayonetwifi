@@ -29,7 +29,7 @@
                 <!--begin::Illustration-->
                 <img
                   src="<?= base_url('assets/') ?>media/illustrations/sketchy-1/2.png"
-                  class="mh-125px mb-9"
+                  class="mh-125px mb-9 hover-elevate-up"
                   alt=""
                 />
                 <!--end::Illustration-->
@@ -37,7 +37,7 @@
                 <div class="d-flex flex-center mb-5">
                   <!--begin::Badge-->
                   <span
-                    class="badge badge-circle badge-light-success fw-bold p-5 me-3 fs-3"
+                    class="badge badge-circle badge-light-primary fw-bold p-5 me-3 fs-3"
                     >1</span
                   >
                   <!--end::Badge-->
@@ -64,7 +64,7 @@
                 <!--begin::Illustration-->
                 <img
                   src="<?= base_url('assets/') ?>media/illustrations/sketchy-1/8.png"
-                  class="mh-125px mb-9"
+                  class="mh-125px mb-9 hover-elevate-up"
                   alt=""
                 />
                 <!--end::Illustration-->
@@ -99,7 +99,7 @@
                 <!--begin::Illustration-->
                 <img
                   src="<?= base_url('assets/') ?>media/illustrations/sketchy-1/12.png"
-                  class="mh-125px mb-9"
+                  class="mh-125px mb-9 hover-elevate-up"
                   alt=""
                 />
                 <!--end::Illustration-->

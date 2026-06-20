@@ -41,10 +41,12 @@
                             border: 1px solid #f1f1f1;
                             transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
                             position: relative;
-                            width: 350px; /* Lebar tetap agar efek stack rapi */
-                            margin: 0 -80px; /* Saling bertumpuk sedikit */
+                            width: 350px;
+                            /* Lebar tetap agar efek stack rapi */
+                            margin: 0 -80px;
+                            /* Saling bertumpuk sedikit */
                             z-index: 1;
-                            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
                         }
 
                         /* --- Pengaturan Posisi Awal (Stacking) --- */
@@ -56,10 +58,12 @@
 
                         /* Kartu Kedua (Tengah - Populer) */
                         .pricing-card-wrapper:nth-child(2) .pricing-card {
-                            transform: scale(1.05); /* Sedikit lebih besar */
-                            z-index: 10; /* Berada paling depan */
+                            transform: scale(1.05);
+                            /* Sedikit lebih besar */
+                            z-index: 10;
+                            /* Berada paling depan */
                             border: 2.5px solid #ffffff;
-                            box-shadow: 0 20px 50px rgba(0, 158, 247, 0.15) !important;
+                            box-shadow: 0 20px 50px var(--bs-primary-light) !important;
                         }
 
                         /* Kartu Ketiga (Kanan) */
@@ -72,7 +76,7 @@
                         .pricing-stack-container:hover .pricing-card-wrapper:nth-child(1) .pricing-card {
                             transform: rotate(-5deg) translateX(-150px) translateY(0);
                         }
-                        
+
                         .pricing-stack-container:hover .pricing-card-wrapper:nth-child(2) .pricing-card {
                             transform: scale(1.1) translateY(-30px);
                         }
@@ -84,7 +88,7 @@
                         /* Individual Hover (saat kursor di atas kartu spesifik) */
                         .pricing-card:hover {
                             z-index: 20 !important;
-                            box-shadow: 0 30px 60px rgba(0,0,0,0.2) !important;
+                            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2) !important;
                         }
 
                         /* Gaya Badge, Divider & Harga */
@@ -92,8 +96,8 @@
                             position: absolute;
                             top: 25px;
                             right: 25px;
-                            background-color: #e1f0ff;
-                            color: #009ef7;
+                            background-color: var(--bs-primary-light);
+                            color: var(--bs-primary);
                             padding: 8px 20px;
                             border-radius: 50px;
                             font-weight: 700;
@@ -108,11 +112,11 @@
                         }
 
                         .btn-pilih-paket {
-                            background-color: #009ef7 !important;
+                            background-color: var(--bs-primary) !important;
                             border-radius: 18px !important;
                             padding: 18px 25px !important;
                             font-weight: 800;
-                            box-shadow: 0 4px 15px rgba(0, 158, 247, 0.2);
+                            box-shadow: 0 4px 15px var(--bs-primary-light);
                         }
 
                         /* Responsive Mobile: Kembali ke baris atau scroll horizontal */
@@ -124,11 +128,13 @@
                                 padding: 20px;
                                 min-height: auto;
                             }
+
                             .pricing-card {
                                 margin: 0 10px;
                                 transform: none !important;
                                 width: 300px;
                             }
+
                             .pricing-stack-container:hover .pricing-card {
                                 transform: none !important;
                             }
@@ -137,8 +143,8 @@
 
                     <div class="pricing-stack-container">
                         <?php if (isset($packages) && count($packages) > 0): ?>
-                            <?php foreach ($packages as $index => $pkg): 
-                                $isPopular = ($pkg['name'] == 'Paket Standar' || $index == 1); 
+                            <?php foreach ($packages as $index => $pkg):
+                                $isPopular = ($pkg['name'] == 'Paket Standar' || $index == 1);
                             ?>
                                 <div class="pricing-card-wrapper">
                                     <div class="pricing-card py-15 px-10">
@@ -166,22 +172,22 @@
                                         <div class="w-100 mb-10 text-start">
                                             <div class="d-flex flex-stack mb-5">
                                                 <span class="fw-semibold fs-6 text-gray-700">Kecepatan: <?= esc($pkg['speed']) ?></span>
-                                                <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
+                                                <i class="ki-duotone ki-check-circle fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i>
                                             </div>
                                             <div class="d-flex flex-stack mb-5">
                                                 <span class="fw-semibold fs-6 text-gray-700">Unlimited Kuota</span>
-                                                <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
+                                                <i class="ki-duotone ki-check-circle fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i>
                                             </div>
                                             <div class="d-flex flex-stack">
                                                 <span class="fw-semibold fs-6 text-gray-700">Layanan Prioritas</span>
-                                                <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
+                                                <i class="ki-duotone ki-check-circle fs-1 text-primary"><span class="path1"></span><span class="path2"></span></i>
                                             </div>
                                         </div>
 
                                         <!-- CTA -->
-                                        <?php 
-                                            $waNumber = esc($settings['company_whatsapp'] ?? '62882008632993');
-                                            $waPilihPaket = "https://wa.me/{$waNumber}?text=" . urlencode("Halo Ayonet, saya tertarik untuk berlangganan paket " . $pkg['name'] . ".");
+                                        <?php
+                                        $waNumber = esc($settings['company_whatsapp'] ?? '62882008632993');
+                                        $waPilihPaket = "https://wa.me/{$waNumber}?text=" . urlencode("Halo Ayonet, saya tertarik untuk berlangganan paket " . $pkg['name'] . ".");
                                         ?>
                                         <a href="<?= $waPilihPaket ?>" target="_blank" class="btn btn-primary btn-pilih-paket w-100">
                                             Pilih Paket

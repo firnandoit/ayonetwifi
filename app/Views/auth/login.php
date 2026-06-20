@@ -133,6 +133,14 @@
                                 </div>
                             <?php endif; ?>
 
+                            <?php if (session()->getFlashdata('success')): ?>
+                                <div class="alert alert-dismissible bg-light-success d-flex align-items-center p-5 mb-10">
+                                    <div class="d-flex flex-column">
+                                        <span class="text-success fw-bold"><?= session()->getFlashdata('success') ?></span>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
                             <!--begin::Input group-->
                             <div class="fv-row mb-8">
                                 <input type="text" placeholder="Username" name="username" class="form-control form-control-lg form-control-solid rounded-3" required />
@@ -146,7 +154,7 @@
                             <!--begin::Wrapper-->
                             <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-10">
                                 <div></div>
-                                <a href="#" class="link-success">Lupa Password?</a>
+                                <!-- <a href="#" class="link-success">Lupa Password?</a> -->
                             </div>
 
                             <!--begin::Actions-->
@@ -160,6 +168,7 @@
                                 </button>
 
                                 <!--Social Login (Sesuai Gambar User)-->
+                                <!--
                                 <div class="d-flex align-items-center">
                                     <div class="text-gray-400 fw-bold me-3">Or</div>
 
@@ -171,14 +180,17 @@
                                         <img alt="Logo" src="<?= base_url('assets/media/svg/brand-logos/facebook-3.svg') ?>" />
                                     </a>
                                 </div>
+                                -->
                             </div>
                             <!--end::Actions-->
                         </form>
                         <!--end::Form-->
 
+                        <!--
                         <div class="mt-20 text-start">
                             <span class="text-gray-400 fs-7 fw-bold">Belum punya akun? <a href="#" class="link-success fw-bolder">Daftar Sekarang</a></span>
                         </div>
+                        -->
                     </div>
                     <!--end::Wrapper-->
                 </div>

@@ -2,8 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\OtpModel;
+use App\Models\CustomerModel;
+use App\Models\BillModel;
+use App\Models\PackageModel;
 use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\Controller;
 
 class OtpController extends BaseController
 {
@@ -34,12 +37,8 @@ class OtpController extends BaseController
             return $this->respond(['status' => false, 'message' => 'Format nomor HP tidak valid.'], 422);
         }
 
-        $db = \Config\Database::connect();
-        $pelanggan = $db->table('customers')
-            ->where('phone', $phoneNormalized)
-            ->orWhere('phone', $this->toLocalPhone($phoneNormalized))
-            ->get()
-            ->getRowArray();
+        $customerModel = new CustomerModel();
+        $pelanggan = $customerModel->getCustomerByPhone($phoneNormalized, $this->toLocalPhone($phoneNormalized));
 
         if (!$pelanggan) {
             return $this->respond(['status' => false, 'message' => "Nomor {$phoneNormalized} tidak terdaftar."], 404);
@@ -49,14 +48,8 @@ class OtpController extends BaseController
         $otp = str_pad((string)random_int(0, 999999), $this->otpLength, '0', STR_PAD_LEFT);
 
         // --- SIMPAN OTP (Selalu pakai format 628... agar sinkron) ---
-        $db->table('otp_codes')->where('phone', $phoneNormalized)->delete();
-        $db->table('otp_codes')->insert([
-            'phone'      => $phoneNormalized,
-            'otp_code'   => $otp,
-            'expired_at' => date('Y-m-d H:i:s', time() + $this->otpTtl),
-            'is_used'    => 0,
-            'created_at' => date('Y-m-d H:i:s'),
-        ]);
+        $otpModel = new OtpModel();
+        $otpModel->createOtp($phoneNormalized, $otp, $this->otpTtl);
 
         $sent = $this->sendViaWhatsapp($phoneNormalized, $otp);
 
@@ -83,15 +76,10 @@ class OtpController extends BaseController
         // 2. Normalisasi nomor HP agar sinkron (628...)
         $phoneNormalized = $this->normalizePhone($phone);
 
-        $db = \Config\Database::connect();
+        $otpModel = new OtpModel();
 
         // 3. Cari Kode OTP di database
-        $record = $db->table('otp_codes')
-            ->where('phone', $phoneNormalized)
-            ->where('is_used', 0)
-            ->orderBy('created_at', 'DESC')
-            ->get()
-            ->getRowArray();
+        $record = $otpModel->getActiveOtp($phoneNormalized);
 
         // Cek validitas OTP
         if (!$record || $record['otp_code'] !== (string)$otp) {
@@ -103,16 +91,11 @@ class OtpController extends BaseController
         }
 
         // 4. Tandai OTP sudah digunakan
-        $db->table('otp_codes')->where('id', $record['id'])->update(['is_used' => 1]);
+        $otpModel->markAsUsed($record['id']);
 
         // 5. Ambil data profil pelanggan
-        $pelanggan = $db->table('customers')
-            ->select('customers.id, customers.name, customers.address, customers.status, packages.name as nama_paket')
-            ->join('packages', 'packages.id = customers.package_id', 'left')
-            ->where('customers.phone', $phoneNormalized)
-            ->orWhere('customers.phone', $this->toLocalPhone($phoneNormalized))
-            ->get()
-            ->getRowArray();
+        $customerModel = new CustomerModel();
+        $pelanggan = $customerModel->getCustomerWithPackageByPhone($phoneNormalized, $this->toLocalPhone($phoneNormalized));
 
         if (!$pelanggan) {
             return $this->respond([
@@ -122,14 +105,8 @@ class OtpController extends BaseController
         }
 
         // 6. AMBIL DATA DARI TABEL BILLS (6 bulan terakhir)
-        // Pastikan di tabel 'bills' Anda memiliki kolom 'customer_id'
-        $tagihan = $db->table('bills')
-            ->where('customer_id', $pelanggan['id'])
-            ->orderBy('year', 'DESC')
-            ->orderBy('month', 'DESC')
-            ->limit(6)
-            ->get()
-            ->getResultArray();
+        $billModel = new BillModel();
+        $tagihan = $billModel->getLatestBillsByCustomer($pelanggan['id'], 6);
 
         // 7. HASIL AKHIR (Dikirim ke Dify)
         return $this->respond([
@@ -152,13 +129,10 @@ class OtpController extends BaseController
     // =========================================================================
     public function getPackages(): \CodeIgniter\HTTP\ResponseInterface
     {
-        $db = \Config\Database::connect();
+        $packageModel = new PackageModel();
 
         // Mengambil semua data dari tabel packages
-        $packages = $db->table('packages')
-            ->select('name, speed, price, description')
-            ->get()
-            ->getResultArray();
+        $packages = $packageModel->select('name, speed, price, description')->findAll();
 
         if (empty($packages)) {
             return $this->respond([

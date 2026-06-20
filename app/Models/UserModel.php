@@ -28,8 +28,14 @@ class UserModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules      = [
+        'username' => 'required|alpha_numeric|min_length[3]|is_unique[users.username,id,{id}]',
+    ];
+    protected $validationMessages   = [
+        'username' => [
+            'is_unique' => 'Maaf, username tersebut sudah digunakan oleh pengguna lain. Silakan pilih username yang berbeda.'
+        ]
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

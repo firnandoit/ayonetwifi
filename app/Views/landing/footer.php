@@ -95,7 +95,7 @@
                     <h4 class="fw-bold text-gray-500 mb-6">Tetap Terhubung</h4>
                     <!--end::Subtitle-->
                     <!--begin::Link-->
-                    <a href="https://www.facebook.com/keenthemes" class="mb-6">
+                    <a href="<?= esc($settings['social_facebook'] ?? '#') ?>" class="mb-6">
                       <img
                         src="<?= base_url('assets/') ?>media/svg/brand-logos/facebook-4.svg"
                         class="h-20px me-2"
@@ -105,17 +105,7 @@
                     </a>
                     <!--end::Link-->
                     <!--begin::Link-->
-                    <a href="https://github.com/KeenthemesHub" class="mb-6">
-                      <img
-                        src="<?= base_url('assets/') ?>media/svg/brand-logos/github.svg"
-                        class="h-20px me-2"
-                        alt="" />
-                      <span
-                        class="text-white opacity-50 text-hover-primary fs-5 mb-6">Github</span>
-                    </a>
-                    <!--end::Link-->
-                    <!--begin::Link-->
-                    <a href="https://twitter.com/keenthemes" class="mb-6">
+                    <a href="<?= esc($settings['social_twitter'] ?? '#') ?>" class="mb-6">
                       <img
                         src="<?= base_url('assets/') ?>media/svg/brand-logos/twitter.svg"
                         class="h-20px me-2"
@@ -125,17 +115,7 @@
                     </a>
                     <!--end::Link-->
                     <!--begin::Link-->
-                    <a href="https://dribbble.com/keenthemes" class="mb-6">
-                      <img
-                        src="<?= base_url('assets/') ?>media/svg/brand-logos/dribbble-icon-1.svg"
-                        class="h-20px me-2"
-                        alt="" />
-                      <span
-                        class="text-white opacity-50 text-hover-primary fs-5 mb-6">Dribbble</span>
-                    </a>
-                    <!--end::Link-->
-                    <!--begin::Link-->
-                    <a href="https://www.instagram.com/keenthemes" class="mb-6">
+                    <a href="<?= esc($settings['social_instagram'] ?? '#') ?>" class="mb-6">
                       <img
                         src="<?= base_url('assets/') ?>media/svg/brand-logos/instagram-2-1.svg"
                         class="h-20px me-2"
