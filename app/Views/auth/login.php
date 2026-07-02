@@ -73,6 +73,16 @@
             background-color: #ffffff !important;
             border-color: #009ef7 !important;
         }
+        
+        /* Sembunyikan panah up/down di input type number */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <!--end::Head-->
@@ -149,6 +159,20 @@
                             <!--begin::Input group-->
                             <div class="fv-row mb-7">
                                 <input type="password" placeholder="Password" name="password" class="form-control form-control-lg form-control-solid rounded-3" required />
+                            </div>
+
+                            <!--begin::Input group CAPTCHA-->
+                            <div class="fv-row mb-7 d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-center bg-white rounded me-4" style="height: 50px; min-width: 180px; user-select: none; pointer-events: none; overflow: hidden; border: none;">
+                                    <?php if (isset($captcha_chars)): ?>
+                                        <?php foreach ($captcha_chars as $c): ?>
+                                            <span style="<?= $c['style'] ?>"><?= $c['char'] ?></span>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <input type="number" placeholder="Captcha" name="captcha" class="form-control form-control-lg form-control-solid rounded-3" required style="height: 50px;" />
+                                </div>
                             </div>
 
                             <!--begin::Wrapper-->
