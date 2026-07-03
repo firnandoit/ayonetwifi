@@ -56,7 +56,7 @@
                   <!--end::Title-->
                   <!--begin::Feedback-->
                   <div class="text-gray-500 fw-semibold fs-4">
-                    Ayonet WiFi memberikan layanan internet rumah tangga terbaik di area saya. Ping kecil dan stabil, sangat cocok untuk kebutuhan gaming anak-anak.
+                    Humanika WiFi memberikan layanan internet rumah tangga terbaik di area saya. Ping kecil dan stabil, sangat cocok untuk kebutuhan gaming anak-anak.
                   </div>
                   <!--end::Feedback-->
                 </div>
@@ -184,7 +184,7 @@
                   <!--end::Title-->
                   <!--begin::Feedback-->
                   <div class="text-gray-500 fw-semibold fs-4">
-                    Semenjak beralih ke Ayonet, operasional kantor berjalan lancar karena koneksi tidak pernah putus. Dedicated IP-nya juga sangat membantu sistem kami.
+                    Semenjak beralih ke Humanika, operasional kantor berjalan lancar karena koneksi tidak pernah putus. Dedicated IP-nya juga sangat membantu sistem kami.
                   </div>
                   <!--end::Feedback-->
                 </div>

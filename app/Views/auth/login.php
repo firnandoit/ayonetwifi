@@ -3,7 +3,7 @@
 <!--begin::Head-->
 
 <head>
-    <title>Login - Ayonet WiFi</title>
+    <title>Login - Humanika WiFi</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -73,13 +73,14 @@
             background-color: #ffffff !important;
             border-color: #009ef7 !important;
         }
-        
+
         /* Sembunyikan panah up/down di input type number */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+
         input[type="number"] {
             -moz-appearance: textfield;
         }
@@ -102,11 +103,11 @@
                         <a href="<?= base_url() ?>">
                             <img
                                 alt="Logo"
-                                src="<?= base_url('uploads/logo/ayonet2.png') ?>"
+                                src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                                 class="h-40px h-md-70px" />
                         </a>
                     </div>
-                    <h1 class="text-white fs-2qx fw-bolder mb-3">AYONET NETWORK</h1>
+                    <h1 class="text-white fs-2qx fw-bolder mb-3">HUMANIKA WiFi</h1>
                     <p class="text-white fs-5 fw-semibold opacity-75">Manajemen billing wifi <br>cepat, aman, dan tanpa kendala.</p>
                 </div>
             </div>

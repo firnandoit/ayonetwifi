@@ -15,23 +15,23 @@ License: For each use you must have a valid license purchased only from above li
 
 <head>
   <title>
-    <?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?> - Solusi Internet Cepat, Stabil, dan Tanpa Kuota
+    <?= esc($settings['site_name'] ?? 'Humanika WiFi') ?> - Solusi Internet Cepat, Stabil, dan Tanpa Kuota
   </title>
   <meta charset="utf-8" />
   <meta
     name="description"
-    content="Ayonet WiFi menyediakan layanan internet super cepat, stabil, dan tanpa kuota untuk kebutuhan rumah maupun bisnis Anda. Nikmati koneksi andal setiap saat." />
+    content="Humanika WiFi menyediakan layanan internet super cepat, stabil, dan tanpa kuota untuk kebutuhan rumah maupun bisnis Anda. Nikmati koneksi andal setiap saat." />
   <meta
     name="keywords"
-    content="wifi, ayonet, internet cepat, wifi rumah, internet tanpa kuota, provider internet lokal, pasang wifi" />
+    content="wifi, humanika, internet cepat, wifi rumah, internet tanpa kuota, provider internet lokal, pasang wifi" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:locale" content="id_ID" />
   <meta property="og:type" content="website" />
   <meta
     property="og:title"
-    content="<?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?> - Internet Super Cepat" />
+    content="<?= esc($settings['site_name'] ?? 'Humanika WiFi') ?> - Internet Super Cepat" />
   <meta property="og:url" content="<?= base_url() ?>" />
-  <meta property="og:site_name" content="<?= esc($settings['site_name'] ?? 'Ayonet WiFi') ?>" />
+  <meta property="og:site_name" content="<?= esc($settings['site_name'] ?? 'Humanika WiFi') ?>" />
   <link rel="canonical" href="<?= base_url() ?>" />
   <link rel="shortcut icon" href="<?= base_url('assets/') ?>media/logos/favicon.ico " />
   <!--begin::Fonts(mandatory for all pages)-->
@@ -257,7 +257,7 @@ License: For each use you must have a valid license purchased only from above li
     </div>
 
     <button onclick="toggleDifyChat()" style="float: right; background-color: var(--bs-primary); color: #ffffff; border: none; padding: 14px 24px; border-radius: 30px; cursor: pointer; font-size: 15px; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
-      <span id="dify-icon">💬</span> <span id="dify-text">Tanya AYONET Wifi</span>
+      <span id="dify-icon">💬</span> <span id="dify-text">Tanya Humanika WiFi</span>
     </button>
   </div>
 
@@ -279,7 +279,7 @@ License: For each use you must have a valid license purchased only from above li
         btnIcon.innerText = '✖';
       } else {
         chatWin.style.display = 'none';
-        btnText.innerText = 'Tanya AYONET Wifi';
+        btnText.innerText = 'Tanya Humanika WiFi';
         btnIcon.innerText = '💬';
       }
     }

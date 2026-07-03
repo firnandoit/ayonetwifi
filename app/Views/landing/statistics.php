@@ -167,7 +167,7 @@
             <!--end::Statistics-->
             <!--begin::Testimonial-->
             <div class="fs-2 fw-semibold text-muted text-center mb-3">
-              <span class="fs-1 lh-1 text-white">“</span>Internet dari Ayonet sangat stabil dan cepat.
+              <span class="fs-1 lh-1 text-white">“</span>Internet dari Humanika sangat stabil dan cepat.
               <br />
               <span class="text-white me-1">Streaming film 4K lancar</span> tanpa buffering!
               <span class="fs-1 lh-1 text-white">”</span>

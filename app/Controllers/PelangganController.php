@@ -246,7 +246,7 @@ class PelangganController extends BaseController
         // 4. Jika nomor HP tidak terdaftar di DB
         return $this->respond([
             'status'  => 'not_found',
-            'message' => 'Nomor HP tidak terdaftar di sistem AYONET.'
+            'message' => 'Nomor HP tidak terdaftar di sistem HUMANIKA.'
         ], 404);
     }
 }

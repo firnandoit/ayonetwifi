@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title><?= esc($title) ?> - Ayonet WiFi</title>
+    <title><?= esc($title) ?> - Humanika WiFi</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" href="<?= base_url('assets/') ?>media/logos/favicon.ico" />

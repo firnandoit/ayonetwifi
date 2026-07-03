@@ -66,7 +66,7 @@ class PaymentController extends BaseController
         }
 
         // Request Baru (Tanpa enabled_payments agar VA muncul semua)
-        $orderId = 'AYONET-' . $bill['id'] . '-' . time();
+        $orderId = 'HUMANIKA-' . $bill['id'] . '-' . time();
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
@@ -138,7 +138,7 @@ class PaymentController extends BaseController
                 $statusUpdate = 'unpaid'; // Gagal/Hangus
             }
 
-            // Cari Bill ID dari Order ID (AYONET-ID-TIME)
+            // Cari Bill ID dari Order ID (HUMANIKA-ID-TIME)
             $parts = explode('-', $orderId);
             $billId = $parts[1] ?? null;
 

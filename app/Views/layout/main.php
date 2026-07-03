@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title) ?? 'Ayonet WiFi' ?></title>
+    <title><?= esc($title) ?? 'Humanika WiFi' ?></title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -14,18 +14,19 @@
     <link href="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.css') ?>" rel="stylesheet" type="text/css" />
 
     <style>
-        :root, [data-bs-theme="light"] {
+        :root,
+        [data-bs-theme="light"] {
             --bs-primary: #009EF7 !important;
             --bs-primary-active: #0095E8 !important;
             --bs-primary-light: #F1FAFF !important;
             --bs-primary-inverse: #ffffff !important;
-            
+
             --bs-success: #50CD89 !important;
             --bs-success-active: #47BE7D !important;
             --bs-success-light: #E8FFF3 !important;
             --bs-success-inverse: #ffffff !important;
         }
-        
+
         [data-bs-theme="dark"] {
             --bs-primary: #009EF7 !important;
             --bs-primary-active: #0095E8 !important;
@@ -118,12 +119,12 @@
             box-shadow: 0px 4px 10px rgba(0, 158, 247, 0.3);
         }
 
-        .pagination .page-item.previous .page-link, 
+        .pagination .page-item.previous .page-link,
         .pagination .page-item.next .page-link {
             background-color: #F9F9F9;
         }
-        
-        .pagination .page-item.previous:not(.disabled) .page-link:hover, 
+
+        .pagination .page-item.previous:not(.disabled) .page-link:hover,
         .pagination .page-item.next:not(.disabled) .page-link:hover {
             background-color: var(--bs-primary-light);
             color: var(--bs-primary);
@@ -131,8 +132,9 @@
 
         /* --- MOBILE RESPONSIVE FIXES --- */
         @media (max-width: 991.98px) {
+
             /* 1. Fix bug dropdown menu muncul langsung hilang (Override JS Animation glitch) */
-            #kt_header_menu .menu-item.show > .menu-sub {
+            #kt_header_menu .menu-item.show>.menu-sub {
                 display: flex !important;
                 position: static !important;
                 box-shadow: none !important;
@@ -150,17 +152,19 @@
                 -webkit-overflow-scrolling: touch !important;
                 white-space: nowrap !important;
             }
-            
+
             /* 3. Fix Layout Datatables (Search & Pagination) */
             .dataTables_wrapper .row {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
             }
-            .dataTables_wrapper .row > div {
+
+            .dataTables_wrapper .row>div {
                 width: 100% !important;
                 text-align: left !important;
             }
+
             .dataTables_paginate {
                 display: flex;
                 justify-content: center;
@@ -173,33 +177,41 @@
                 align-items: flex-start !important;
                 padding: 15px !important;
             }
-            .card-title, .card-toolbar {
+
+            .card-title,
+            .card-toolbar {
                 width: 100%;
                 margin: 5px 0 !important;
             }
+
             .card-title .d-flex {
                 width: 100%;
             }
+
             .card-title input {
                 width: 100% !important;
             }
+
             .card-toolbar .btn {
                 width: 100%;
                 justify-content: center;
                 margin-top: 10px;
             }
-            
+
             /* 5. Fix filter row di dashboard */
             form.row.g-3 {
                 flex-direction: column;
             }
-            form.row.g-3 > div {
+
+            form.row.g-3>div {
                 width: 100% !important;
             }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+    <script>
+        eruda.init();
+    </script>
 </head>
 
 <body id="kt_body" class="header-extended header-fixed header-tablet-and-mobile-fixed">
@@ -239,10 +251,10 @@
 
                 <!--begin::Header-->
                 <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header" data-kt-sticky-offset="{default: '200px', lg: '300px'}">
-                    
+
                     <!--begin::Header top-->
                     <div class="header-top-container container-xxl d-flex flex-grow-1 flex-stack">
-                        
+
                         <!--begin::Logo & Search-->
                         <div class="d-flex align-items-center flex-grow-1">
                             <!--begin::Mobile Toggle-->
@@ -254,12 +266,12 @@
                             <!--end::Mobile Toggle-->
 
                             <a href="<?= base_url() ?>">
-                                
-                                  <img
+
+                                <img
                                     alt="Logo"
-                                    src="<?= base_url('uploads/logo/ayonet2.png') ?>"
+                                    src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                                     class="h-25px h-md-30px" />
-                                
+
                             </a>
 
                             <!--Search bar muncul di sini (Desktop Only)-->
@@ -333,14 +345,14 @@
                 </div>
                 <!--end::Header-->
 
-              <!--begin::Content-->
+                <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                    
+
                     <!--begin::Toolbar-->
                     <div class="toolbar py-5 py-lg-7" id="kt_toolbar">
                         <!--begin::Container-->
                         <div class="container-xxl d-flex flex-stack flex-wrap">
-                            
+
                             <!--begin::Page title-->
                             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                                 <!-- Judul Halaman: fs-3 sudah pas, tapi kita pertegas warnanya -->
@@ -385,7 +397,7 @@
                     <div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between">
                         <div class="text-dark order-2 order-md-1">
                             <span class="text-muted fw-semibold me-1">2026&copy;</span>
-                            <a href="#" class="text-gray-800 text-hover-primary">Ayonet WiFi</a>
+                            <a href="#" class="text-gray-800 text-hover-primary">Humanika WiFi</a>
                         </div>
                     </div>
                 </div>
@@ -395,7 +407,9 @@
     </div>
 
     <!--begin::Javascript-->
-    <script>var hostUrl = "<?= base_url('assets/') ?>";</script>
+    <script>
+        var hostUrl = "<?= base_url('assets/') ?>";
+    </script>
     <script src="<?= base_url('assets/plugins/global/plugins.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/js/scripts.bundle.js') ?>"></script>
     <script src="<?= base_url('assets/plugins/custom/datatables/datatables.bundle.js') ?>"></script>
@@ -403,11 +417,11 @@
     <?= $this->renderSection('js') ?>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             KTApp.hidePageLoading();
         });
 
-        document.addEventListener("click", function (e) {
+        document.addEventListener("click", function(e) {
             var link = e.target.closest("a");
             if (link && link.href && link.href.startsWith(window.location.origin) && !link.target && !link.hasAttribute("data-kt-menu") && !link.hasAttribute("data-kt-element") && link.href !== window.location.href + "#" && !link.href.includes("#")) {
                 KTApp.showPageLoading();
@@ -415,4 +429,5 @@
         });
     </script>
 </body>
+
 </html>

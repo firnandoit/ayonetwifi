@@ -53,7 +53,7 @@
                       Informasi Layanan
                     </h4>
                     <!--end::Subtitle-->
-                    <?php 
+                    <?php
                     $waNumber = esc($settings['company_whatsapp'] ?? '6281234567890');
                     $waBase = "https://wa.me/{$waNumber}?text=";
                     ?>
@@ -148,21 +148,21 @@
                 <a href="<?= base_url() ?>">
                   <img
                     alt="Logo"
-                    src="<?= base_url('uploads/logo/ayonet2.png') ?>"
+                    src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                     class="h-25px h-md-30px" />
                 </a>
                 <!--end::Logo image-->
                 <!--begin::Logo image-->
                 <span
-                  class="mx-5 fs-6 fw-semibold text-gray-600 pt-1"><?= $settings['landing_footer_copyright'] ?? '&copy; ' . date('Y') . ' Ayonet WiFi. All rights reserved.' ?></span>
+                  class="mx-5 fs-6 fw-semibold text-gray-600 pt-1"><?= $settings['landing_footer_copyright'] ?? '&copy; ' . date('Y') . ' Humanika WiFi. All rights reserved.' ?></span>
                 <!--end::Logo image-->
               </div>
               <!--end::Copyright-->
               <!--begin::Menu-->
-              <?php 
+              <?php
               if (!isset($waBase)) {
-                  $waNumber = esc($settings['company_whatsapp'] ?? '6281234567890');
-                  $waBase = "https://wa.me/{$waNumber}?text=";
+                $waNumber = esc($settings['company_whatsapp'] ?? '6281234567890');
+                $waBase = "https://wa.me/{$waNumber}?text=";
               }
               ?>
               <ul
@@ -178,7 +178,7 @@
                     class="menu-link px-2">Bantuan</a>
                 </li>
                 <li class="menu-item">
-                  <a href="<?= $waBase . urlencode('Halo Ayonet, saya ingin Daftar berlangganan WiFi.') ?>" target="_blank" class="menu-link px-2">Daftar</a>
+                  <a href="<?= $waBase . urlencode('Halo Humanika, saya ingin Daftar berlangganan WiFi.') ?>" target="_blank" class="menu-link px-2">Daftar</a>
                 </li>
               </ul>
               <!--end::Menu-->

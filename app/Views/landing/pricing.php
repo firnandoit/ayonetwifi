@@ -187,7 +187,7 @@
                                         <!-- CTA -->
                                         <?php
                                         $waNumber = esc($settings['company_whatsapp'] ?? '62882008632993');
-                                        $waPilihPaket = "https://wa.me/{$waNumber}?text=" . urlencode("Halo Ayonet, saya tertarik untuk berlangganan paket " . $pkg['name'] . ".");
+                                        $waPilihPaket = "https://wa.me/{$waNumber}?text=" . urlencode("Halo Humanika, saya tertarik untuk berlangganan paket " . $pkg['name'] . ".");
                                         ?>
                                         <a href="<?= $waPilihPaket ?>" target="_blank" class="btn btn-primary btn-pilih-paket w-100">
                                             Pilih Paket

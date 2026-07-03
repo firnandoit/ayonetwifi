@@ -34,11 +34,11 @@
                   <a href="<?= base_url() ?>">
                     <img
                       alt="Logo"
-                      src="<?= base_url('uploads/logo/ayonet3.png') ?>"
+                      src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                       class="logo-default h-25px h-lg-30px" />
                     <img
                       alt="Logo"
-                      src="<?= base_url('uploads/logo/ayonet2.png') ?>"
+                      src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                       class="logo-sticky h-25px h-lg-30px" />
                   </a>
                   <!--end::Logo image-->
@@ -146,7 +146,7 @@
                 <?= esc($settings['landing_hero_title'] ?? 'Solusi Internet Cepat, Stabil, dan Tanpa Kuota') ?>
               </h1>
               <div class="fw-semibold fs-4 text-gray-400 mb-10">
-                <?= esc($settings['landing_hero_subtitle'] ?? 'Nikmati pengalaman browsing, streaming, dan gaming tanpa lag dengan jaringan andal dari Ayonet WiFi.') ?>
+                <?= esc($settings['landing_hero_subtitle'] ?? 'Nikmati pengalaman browsing, streaming, dan gaming tanpa lag dengan jaringan andal dari Humanika WiFi.') ?>
               </div>
               <!--end::Title-->
               <!--begin::Action-->
