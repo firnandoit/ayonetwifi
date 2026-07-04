@@ -1,26 +1,19 @@
       <?php /** @var array $settings */ ?>
-      <!--begin::Header Section-->
       <div class="mb-0" id="home">
-        <!--begin::Wrapper-->
         <div
           class="bgi-no-repeat bgi-size-cover bgi-position-center landing-dark-bg"
           style="
             background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('<?= esc($settings['landing_bg_image'] ?? 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=2070&auto=format&fit=crop') ?>');
             background-attachment: fixed;
           ">
-          <!--begin::Header-->
           <div
             class="landing-header"
             data-kt-sticky="true"
             data-kt-sticky-name="landing-header"
             data-kt-sticky-offset="{default: '200px', lg: '300px'}">
-            <!--begin::Container-->
             <div class="container">
-              <!--begin::Wrapper-->
               <div class="d-flex align-items-center justify-content-between">
-                <!--begin::Logo-->
                 <div class="d-flex align-items-center flex-equal">
-                  <!--begin::Mobile menu toggle-->
                   <button
                     class="btn btn-icon btn-active-color-primary me-3 d-flex d-lg-none"
                     id="kt_landing_menu_toggle">
@@ -29,8 +22,6 @@
                       <span class="path2"></span>
                     </i>
                   </button>
-                  <!--end::Mobile menu toggle-->
-                  <!--begin::Logo image-->
                   <a href="<?= base_url() ?>">
                     <img
                       alt="Logo"
@@ -41,10 +32,7 @@
                       src="<?= base_url('uploads/logo/logo-depan.png') ?>"
                       class="logo-sticky h-25px h-lg-30px" />
                   </a>
-                  <!--end::Logo image-->
                 </div>
-                <!--end::Logo-->
-                <!--begin::Menu wrapper-->
                 <div class="d-lg-block" id="kt_header_nav_wrapper">
                   <div
                     class="d-lg-block p-5 p-lg-0"
@@ -58,105 +46,67 @@
                     data-kt-swapper="true"
                     data-kt-swapper-mode="prepend"
                     data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav_wrapper'}">
-                    <!--begin::Menu-->
                     <div
                       class="menu menu-column flex-nowrap menu-rounded menu-lg-row menu-title-gray-600 menu-state-title-primary nav nav-flush fs-5 fw-semibold"
                       id="kt_landing_menu">
-                      <!--begin::Menu item-->
                       <div class="menu-item">
-                        <!--begin::Menu link-->
                         <a
                           class="menu-link nav-link active py-3 px-4 px-xxl-6"
                           href="#kt_body"
                           data-kt-scroll-toggle="true"
                           data-kt-drawer-dismiss="true">Beranda</a>
-                        <!--end::Menu link-->
                       </div>
-                      <!--end::Menu item-->
-                      <!--begin::Menu item-->
                       <div class="menu-item">
-                        <!--begin::Menu link-->
                         <a
                           class="menu-link nav-link py-3 px-4 px-xxl-6"
                           href="#how-it-works"
                           data-kt-scroll-toggle="true"
                           data-kt-drawer-dismiss="true">Cara Kerja</a>
-                        <!--end::Menu link-->
                       </div>
-                      <!--end::Menu item-->
-                      <!--begin::Menu item-->
                       <div class="menu-item">
-                        <!--begin::Menu link-->
                         <a
                           class="menu-link nav-link py-3 px-4 px-xxl-6"
                           href="#achievements"
                           data-kt-scroll-toggle="true"
                           data-kt-drawer-dismiss="true">Keunggulan</a>
-                        <!--end::Menu link-->
                       </div>
-                      <!--end::Menu item-->
-
-                      <!--begin::Menu item-->
                       <div class="menu-item">
-                        <!--begin::Menu link-->
                         <a
                           class="menu-link nav-link py-3 px-4 px-xxl-6"
                           href="#portfolio"
                           data-kt-scroll-toggle="true"
                           data-kt-drawer-dismiss="true">Layanan</a>
-                        <!--end::Menu link-->
                       </div>
-                      <!--end::Menu item-->
-                      <!--begin::Menu item-->
                       <div class="menu-item">
-                        <!--begin::Menu link-->
                         <a
                           class="menu-link nav-link py-3 px-4 px-xxl-6"
                           href="#pricing"
                           data-kt-scroll-toggle="true"
                           data-kt-drawer-dismiss="true">Harga</a>
-                        <!--end::Menu link-->
                       </div>
-                      <!--end::Menu item-->
                     </div>
-                    <!--end::Menu-->
                   </div>
                 </div>
-                <!--end::Menu wrapper-->
-                <!--begin::Toolbar-->
                 <div class="flex-equal text-end ms-1">
                   <a
                     href="<?= base_url('login') ?>"
                     class="btn btn-primary">Masuk</a>
                 </div>
-                <!--end::Toolbar-->
               </div>
-              <!--end::Wrapper-->
             </div>
-            <!--end::Container-->
           </div>
-          <!--end::Header-->
-          <!--begin::Landing hero-->
           <div
             class="d-flex flex-column flex-center w-100 min-h-350px min-h-lg-500px px-9">
-            <!--begin::Heading-->
             <div class="text-center mb-5 mb-lg-10 py-10 py-lg-20">
-              <!--begin::Title-->
               <h1 class="text-white lh-base fw-bold fs-2x fs-lg-3x mb-15">
                 <?= esc($settings['landing_hero_title'] ?? 'Solusi Internet Cepat, Stabil, dan Tanpa Kuota') ?>
               </h1>
               <div class="fw-semibold fs-4 text-gray-400 mb-10">
                 <?= esc($settings['landing_hero_subtitle'] ?? 'Nikmati pengalaman browsing, streaming, dan gaming tanpa lag dengan jaringan andal dari Humanika WiFi.') ?>
               </div>
-              <!--end::Title-->
-              <!--begin::Action-->
               <a href="#pricing" class="btn btn-primary">Berlangganan Sekarang</a>
-              <!--end::Action-->
             </div>
-            <!--end::Heading-->
-            <!--begin::Clients-->
             <div class="d-flex flex-center flex-wrap position-relative px-5">
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -166,8 +116,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -177,8 +125,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -188,8 +134,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -199,8 +143,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -210,8 +152,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -221,8 +161,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -232,8 +170,6 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
-              <!--begin::Client-->
               <div
                 class="d-flex flex-center m-3 m-md-6"
                 data-bs-toggle="tooltip"
@@ -243,14 +179,9 @@
                   class="mh-30px mh-lg-40px"
                   alt="" />
               </div>
-              <!--end::Client-->
             </div>
-            <!--end::Clients-->
           </div>
-          <!--end::Landing hero-->
         </div>
-        <!--end::Wrapper-->
-        <!--begin::Curve bottom-->
         <div class="landing-curve landing-dark-color mb-10 mb-lg-20">
           <svg
             viewBox="15 12 1470 48"
@@ -261,6 +192,4 @@
               fill="currentColor"></path>
           </svg>
         </div>
-        <!--end::Curve bottom-->
       </div>
-      <!--end::Header Section-->
