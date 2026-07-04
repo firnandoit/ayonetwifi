@@ -152,7 +152,6 @@
                                             <span class="badge-populer">Populer</span>
                                         <?php endif; ?>
 
-                                        <!-- Heading -->
                                         <div class="mb-7 text-center">
                                             <h1 class="text-gray-900 mb-3 fw-boldest fs-1"><?= esc($pkg['name']) ?></h1>
                                             <div class="text-gray-400 fw-semibold mb-2 fs-6 px-2">
@@ -184,7 +183,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- CTA -->
                                         <?php
                                         $waNumber = esc($settings['company_whatsapp'] ?? '62882008632993');
                                         $waPilihPaket = "https://wa.me/{$waNumber}?text=" . urlencode("Halo Humanika, saya tertarik untuk berlangganan paket " . $pkg['name'] . ".");
