@@ -27,19 +27,14 @@ class PelangganController extends BaseController
         $data = [
             'title'    => 'Manajemen Pelanggan',
             'packages' => $packageModel->findAll(),
-            // Ambil user yang rolenya 'customer' untuk dihubungkan ke data pelanggan
             'users'    => $userModel->where('role', 'customer')->findAll()
         ];
         return view('pelanggan/index', $data);
     }
 
-    // --- PERBAIKAN DI SINI ---
     public function list()
     {
-        // Ambil keyword pencarian dari DataTables
         $search = $this->request->getVar('search')['value'] ?? null;
-
-        // Panggil model
         $data = $this->customerModel->getDatatables($search);
 
         return $this->response->setJSON(['data' => $data]);
@@ -88,20 +83,17 @@ class PelangganController extends BaseController
             'ip_address'        => $this->request->getPost('ip_address'),
         ];
 
-        // Variabel penanda status sukses
         $isSuccess = false;
 
         if (!empty($id)) {
-            // 1. Jalankan Update ke Database
             if ($this->customerModel->update($id, $payload)) {
                 save_log("Update data pelanggan: " . $payload['name'] . " (Status: " . $payload['status'] . ")", "Pelanggan", "Update");
                 $message = 'Data pelanggan berhasil diperbarui';
                 $isSuccess = true;
             }
         } else {
-            // 2. Jalankan Insert ke Database untuk pelanggan baru
             if ($this->customerModel->insert($payload)) {
-                $id = $this->customerModel->getInsertID(); // Ambil ID yang baru saja dibuat
+                $id = $this->customerModel->getInsertID();
                 save_log("Menambah pelanggan baru: " . $payload['name'], "Pelanggan", "Create");
                 $message = 'Pelanggan baru berhasil ditambahkan';
                 $isSuccess = true;
@@ -113,12 +105,11 @@ class PelangganController extends BaseController
         // =============================================================
         if ($isSuccess && !empty($payload['ip_address'])) {
 
-            // Variabel IP Target Manajemen Mikrotik (Silakan ganti jika di lapangan/asli)
+            // Variabel IP Target Manajemen Mikrotik
             $mikrotikIP       = '192.168.0.115';
             $mikrotikUser     = 'admin';
             $mikrotikPassword = 'admin123';
 
-            // Menggunakan HTTP Client bawaan CodeIgniter 4 (bukan curl manual)
             $client = \Config\Services::curlrequest();
             $customComment = 'ISOLIR_' . $id . '_' . str_replace(' ', '_', $payload['name']);
 
@@ -135,13 +126,12 @@ class PelangganController extends BaseController
 
                     $checkExist = json_decode($responseGet->getBody(), true);
 
-                    // 2. Gunakan PUT untuk ADD data baru
                     if (empty($checkExist)) {
                         $urlPut = "http://{$mikrotikIP}:81/rest/ip/firewall/filter";
 
-                        $client->request('PUT', $urlPut, [ // UBAH POST MENJADI PUT
+                        $client->request('PUT', $urlPut, [
                             'auth' => [$mikrotikUser, $mikrotikPassword],
-                            'json' => [ // Gunakan 'json' agar header otomatis benar
+                            'json' => [
                                 'chain'       => 'forward',
                                 'src-address' => $payload['ip_address'],
                                 'action'      => 'drop',
@@ -165,7 +155,6 @@ class PelangganController extends BaseController
                         foreach ($findRule as $rule) {
                             if (isset($rule['.id'])) {
                                 $targetID = $rule['.id'];
-                                // Pastikan ID seperti *1A tidak rusak karena double encoding
                                 $urlDelete = "http://{$mikrotikIP}:81/rest/ip/firewall/filter/" . $targetID;
 
                                 $client->request('DELETE', $urlDelete, [
@@ -178,7 +167,6 @@ class PelangganController extends BaseController
                 }
             } catch (\Exception $e) {
                 log_message('error', 'REST API Mikrotik Bermasalah: ' . $e->getMessage());
-                // Jika MikroTik gagal, kita tetap kirim response sukses DB tapi ada info error
                 return $this->respondCreated([
                     'status'  => true,
                     'message' => $message . ' (Sinkronisasi MikroTik Gagal: Hubungi Admin)'
@@ -186,14 +174,12 @@ class PelangganController extends BaseController
             }
         }
 
-        // WAJIB ADA RETURN DI AKHIR AGAR FRONTEND MENERIMA RESPONSE SAAT SUKSES
         return $this->respondCreated([
             'status'  => true,
             'message' => $message
         ]);
     }
 
-    // Menghapus data
     public function delete($id = null)
     {
         helper('log');
@@ -208,17 +194,8 @@ class PelangganController extends BaseController
         return $this->failNotFound('Data tidak ditemukan atau sudah dihapus');
     }
 
-    // ========================================================
-    // COPAS BAGIAN BARU INI DI BAGIAN BAWAH CONTROLLER ANDA
-    // ========================================================
-
-    /**
-     * API Publik untuk Dify AI Agent
-     * Mencari status pelanggan berdasarkan nomor HP untuk chatbot landing page
-     */
     public function cekByHp()
     {
-        // 1. Ambil query string 'no_hp' yang dikirim dari node Permintaan HTTP Dify
         $noHp = $this->request->getGet('no_hp');
 
         if (!$noHp) {
@@ -228,22 +205,19 @@ class PelangganController extends BaseController
             ], 400);
         }
 
-        // 2. Cari di database menggunakan properti customerModel bawaan controller ini
         $pelanggan = $this->customerModel->where('phone', $noHp)->first();
 
-        // 3. Jika nomor HP terdaftar, kembalikan data dalam struktur JSON teratur
         if ($pelanggan) {
             return $this->respond([
                 'status' => 'success',
                 'data'   => [
                     'nama'   => $pelanggan['name'],
                     'alamat' => $pelanggan['address'],
-                    'status' => $pelanggan['status'],  // Hasilnya dinamis: aktif/isolir
+                    'status' => $pelanggan['status'],
                 ]
             ], 200);
         }
 
-        // 4. Jika nomor HP tidak terdaftar di DB
         return $this->respond([
             'status'  => 'not_found',
             'message' => 'Nomor HP tidak terdaftar di sistem HUMANIKA.'

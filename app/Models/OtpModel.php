@@ -10,9 +10,6 @@ class OtpModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['phone', 'otp_code', 'expired_at', 'is_used', 'created_at'];
 
-    /**
-     * Hapus OTP lama dan buat OTP baru untuk nomor tertentu
-     */
     public function createOtp($phone, $otpCode, $otpTtl)
     {
         $this->where('phone', $phone)->delete();
@@ -25,9 +22,6 @@ class OtpModel extends Model
         ]);
     }
 
-    /**
-     * Cari OTP aktif berdasarkan nomor HP
-     */
     public function getActiveOtp($phone)
     {
         return $this->where('phone', $phone)
@@ -36,9 +30,6 @@ class OtpModel extends Model
             ->first();
     }
 
-    /**
-     * Tandai OTP sudah digunakan
-     */
     public function markAsUsed($id)
     {
         return $this->update($id, ['is_used' => 1]);

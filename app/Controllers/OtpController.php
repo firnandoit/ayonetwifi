@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controllers;
 
 use App\Models\OtpModel;
@@ -64,7 +65,6 @@ class OtpController extends BaseController
     // =========================================================================
     public function verifyOtp(): \CodeIgniter\HTTP\ResponseInterface
     {
-        // 1. Ambil input dari Dify
         $json = $this->request->getJSON(true);
         $phone = $json['phone'] ?? $this->request->getVar('phone');
         $otp = $json['otp_code'] ?? $this->request->getVar('otp_code');
@@ -72,16 +72,10 @@ class OtpController extends BaseController
         if (empty($phone) || empty($otp)) {
             return $this->fail('Data tidak lengkap.', 400);
         }
-
-        // 2. Normalisasi nomor HP agar sinkron (628...)
         $phoneNormalized = $this->normalizePhone($phone);
 
         $otpModel = new OtpModel();
-
-        // 3. Cari Kode OTP di database
         $record = $otpModel->getActiveOtp($phoneNormalized);
-
-        // Cek validitas OTP
         if (!$record || $record['otp_code'] !== (string)$otp) {
             return $this->respond(['status' => false, 'message' => 'Kode OTP salah atau sudah tidak berlaku.'], 404);
         }
@@ -90,10 +84,8 @@ class OtpController extends BaseController
             return $this->respond(['status' => false, 'message' => 'OTP kadaluwarsa.'], 410);
         }
 
-        // 4. Tandai OTP sudah digunakan
         $otpModel->markAsUsed($record['id']);
 
-        // 5. Ambil data profil pelanggan
         $customerModel = new CustomerModel();
         $pelanggan = $customerModel->getCustomerWithPackageByPhone($phoneNormalized, $this->toLocalPhone($phoneNormalized));
 
@@ -103,12 +95,9 @@ class OtpController extends BaseController
                 'message' => 'Verifikasi berhasil, tapi profil pelanggan tidak ditemukan.'
             ], 404);
         }
-
-        // 6. AMBIL DATA DARI TABEL BILLS (6 bulan terakhir)
         $billModel = new BillModel();
         $tagihan = $billModel->getLatestBillsByCustomer($pelanggan['id'], 6);
 
-        // 7. HASIL AKHIR (Dikirim ke Dify)
         return $this->respond([
             'status'    => true,
             'message'   => 'Verifikasi berhasil!',
@@ -118,7 +107,6 @@ class OtpController extends BaseController
                 'nama_paket' => $pelanggan['nama_paket'] ?? 'Tanpa Paket',
                 'status'     => ucfirst($pelanggan['status'])
             ],
-            // Data tagihan ini yang akan dibaca AI untuk menjawab pertanyaan "Sudah bayar?"
             'daftar_tagihan' => $tagihan
         ]);
     }

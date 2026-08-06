@@ -1,3 +1,8 @@
+<?php
+
+/** @var array $packages */
+/** @var array $users */
+?>
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
@@ -179,7 +184,6 @@
                     }
                 ]
             });
-            // --- TAMBAHKAN KODE INI AGAR FILTER BERJALAN ---
             $('#searchTable').on('keyup', function() {
                 table.search(this.value).draw();
             });

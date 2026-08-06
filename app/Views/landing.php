@@ -141,7 +141,6 @@ License: For each use you must have a valid license purchased only from above li
     <?= $this->include('landing/statistics') ?>
     <?= $this->include('landing/projects') ?>
     <?= $this->include('landing/pricing') ?>
-    <?= $this->include('landing/testimonials') ?>
     <?= $this->include('landing/footer') ?>
     <!--begin::Scrolltop-->
     <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
@@ -253,7 +252,7 @@ License: For each use you must have a valid license purchased only from above li
 
   <div id="dify-widget-container">
     <div id="dify-chat-window">
-      <iframe id="dify-iframe" data-src="https://udify.app/chat/LfHjOUSQypqTZcBl" style="width: 100%; height: 100%; border: none;" allow="microphone"></iframe>
+      <iframe id="dify-iframe" data-src="<?= config('Dify')->chatUrl ?>" style="width: 100%; height: 100%; border: none;" allow="microphone"></iframe>
     </div>
 
     <button onclick="toggleDifyChat()" style="float: right; background-color: var(--bs-primary); color: #ffffff; border: none; padding: 14px 24px; border-radius: 30px; cursor: pointer; font-size: 15px; font-weight: 600; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">

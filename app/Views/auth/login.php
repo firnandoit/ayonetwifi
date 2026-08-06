@@ -111,23 +111,16 @@
                     <p class="text-white fs-5 fw-semibold opacity-75">Manajemen billing wifi <br>cepat, aman, dan tanpa kendala.</p>
                 </div>
             </div>
-            <!--end::Aside-->
-
-            <!--begin::Body (Area Form)-->
             <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 auth-form-side">
                 <div class="d-flex flex-column flex-center flex-row-fluid p-10">
-                    <!--begin::Wrapper-->
-                    <div class="w-lg-450px w-100">
 
-                        <!-- Tombol Kembali -->
+                    <div class="w-lg-450px w-100">
                         <div class="mb-10">
                             <a href="<?= base_url('/') ?>" class="btn btn-icon btn-sm btn-light-success rounded-circle me-3">
                                 <i class="ki-duotone ki-arrow-left fs-2"><span class="path1"></span><span class="path2"></span></i>
                             </a>
                             <span class="text-gray-400 fw-bold">Kembali</span>
                         </div>
-
-                        <!--begin::Form-->
                         <form class="form w-100" id="kt_sign_in_form" action="<?= base_url('login') ?>" method="post">
                             <?= csrf_field() ?>
 
